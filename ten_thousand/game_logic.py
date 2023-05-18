@@ -108,8 +108,7 @@ class GameLogic:
                 roun = 1
                 total = 0
                 remaining = 6
-
-
+                score2 = 0
 
                 while True:
                     score1 = 0
@@ -152,13 +151,19 @@ class GameLogic:
                         if all(d in dice for d in input_1):  # to cheack if the user selects from the existing dices for a specific round in the game "All elements in list_1 are present in list_2."
                             score1 = cls.calculate_score(input_1)
                             remaining -= len(input_1)
+                            score2+=score1
                             total += score1
                             print(f"You have {score1} unbanked points and {remaining} dice remaining\n(r)oll again, (b)ank your points or (q)uit:")
                             userInputs = input('> ')
 
+                            if userInputs.strip().lower() == 'q':
+                                print(f"Thanks for playing. You earned {total} points")
+                                break
+
                             if userInputs.strip().lower() == 'b':
-                                print(f"You banked {total} points in round {roun}")
+                                print(f"You banked {score2} points in round {roun}")
                                 print(f"Total score is {total} points")
+                                score2 = 0
                                 roun += 1
                                 remaining = 6    
                                 continue
