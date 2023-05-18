@@ -2,7 +2,6 @@
 
 **Author:** 
 ```
-Aseel Bdoor 
 Qais Dwairi
 Moath Shakatreh
 ```
@@ -12,7 +11,4 @@ Moath Shakatreh
 `python3 ten_thousand/game_logic.py`
 
 ## How to use your library 
-`pytest`
-
-## Tests
-How do you run tests? `pytest`
+`python3 game_logic.py`
