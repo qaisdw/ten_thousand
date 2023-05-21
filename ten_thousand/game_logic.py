@@ -99,9 +99,10 @@ class GameLogic:
       tuple_value = tuple(int(digit) for digit in string)
       return tuple_value
 
+
     @classmethod
     def startGame(cls):
-        print("Welcome to Ten Thousand\n(y)es to play or (n)o to decline you can't enter other thing")
+        print("Welcome to Ten Thousand\n(y)es to play or (n)o to decline")
         userInputs = input('> ')
         while userInputs != 'q':
             if userInputs.strip().lower() == 'y':
@@ -112,46 +113,53 @@ class GameLogic:
 
                 while True:
                     score1 = 0
-                    print(f"Starting round {roun}\nRolling {remaining} dice...")
-                    dice = cls.roll_dice(remaining)
-                    dices = "*** "
-                    for i in dice:
-                        dices += str(i) + " "
-                    dices += "***"
-                    print(f"{dices}\nEnter dice to keep, or (q)uit:")
+                    if remaining == 6:
+                        print(f"Starting round {roun}\nRolling 6 dice...")
+                        dice = cls.roll_dice()
+                        dices = "*** "
+                        for i in dice:
+                            dices += str(i) + " "
+                        dices += "***"
+                        print(f"{dices}\nEnter dice to keep, or (q)uit:")
+
                     userInputs = input('> ')
 
                     if userInputs.strip().lower() == 'q':
                         print(f"Thanks for playing. You earned {total} points")
                         break
 
-                    if userInputs == 'b':              # in case if the user inter b in the first(when he don't have any points to bank)
-                        if score1 == 0:
-                            print()
-                            print('You have no points to bank \nEnter dice to Play or (q)uit')
-                            print()
+                    if userInputs.strip().lower() == 'b' and score2 == 0:
+                        print('\nYou have no points to bank \nEnter dice to Play or (q)uit\n')
+                        continue
 
-                    if userInputs.strip().lower() == 'r':
-                        if remaining == 6:
-                            dice = cls.roll_dice()
-                        elif remaining == 0:
-                            break
-                        else:
-                            dice = cls.roll_dice(remaining)
+                    if userInputs.strip().lower() == "r" and remaining == 6:
+                        print("\nYou have to select a dice to re-roll first or (q)uit\n")
+                        continue
 
+                    if userInputs.strip().lower() == "r" and remaining != 6:
+                        print(f"Starting round {roun}\nRolling {remaining} dice...")
+                        dice = cls.roll_dice(remaining)
                         dices = "*** "
                         for i in dice:
                             dices += str(i) + " "
                         dices += "***"
-
                         print(f"{dices}\nEnter dice to keep, or (q)uit:")
-                    
+                        continue
+
+                    if userInputs.strip().lower() == 'b' and remaining != 6:
+                        print(f"\nYou banked {score2} points in round {roun}\nTotal score is {total} points\n")
+                        score2 = 0
+                        roun += 1
+                        remaining = 6
+                        continue
+
+
                     if userInputs.isdigit():
                         input_1 = cls.string_to_tuple(userInputs.strip())
-                        if all(d in dice for d in input_1):  # to cheack if the user selects from the existing dices for a specific round in the game "All elements in list_1 are present in list_2."
+                        if all(d in dice for d in input_1):
                             score1 = cls.calculate_score(input_1)
                             remaining -= len(input_1)
-                            score2+=score1
+                            score2 += score1
                             total += score1
                             print(f"You have {score1} unbanked points and {remaining} dice remaining\n(r)oll again, (b)ank your points or (q)uit:")
                             userInputs = input('> ')
@@ -160,22 +168,26 @@ class GameLogic:
                                 print(f"Thanks for playing. You earned {total} points")
                                 break
 
+                            if userInputs.strip().lower() == "r":
+                                if remaining != 6:
+                                    print(f"Starting round {roun}\nRolling {remaining} dice...")
+                                    dice = cls.roll_dice(remaining)
+                                    dices = "*** "
+                                    for i in dice:
+                                        dices += str(i) + " "
+                                    dices += "***"
+                                    print(f"{dices}\nEnter dice to keep, or (q)uit:")
+                                    continue
+
                             if userInputs.strip().lower() == 'b':
-                                print(f"You banked {score2} points in round {roun}")
-                                print(f"Total score is {total} points")
+                                print(f"\nYou banked {score2} points in round {roun}\nTotal score is {total} points\n")
                                 score2 = 0
                                 roun += 1
-                                remaining = 6    
-                                continue
+                                remaining = 6
                         else:
-                            print()
-                            print("Invalid dice selection. Try again.")
-                            print()
-                            continue
+                            print("\nInvalid dice selection. Try again.\n")
                     else:
-                        print("Invalid input. Try again.")
-                        continue
-
+                        print("\nInvalid input. Try again.\n")
             else:
                 print("OK. Maybe another time")
                 break
