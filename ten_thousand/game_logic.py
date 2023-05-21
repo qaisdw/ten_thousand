@@ -102,6 +102,19 @@ class GameLogic:
 
     @classmethod
     def startGame(cls):
+        """
+        Starts the Ten Thousand game.
+
+        The method prompts the user to play the game or decline. If the user chooses to play,
+        it initializes the game variables and starts the game loop. The loop allows the player
+        to roll dice, keep dice, bank points, and continue playing until they decide to quit.
+
+        Returns:
+            None
+
+        Raises:
+            None
+        """
         print("Welcome to Ten Thousand\n(y)es to play or (n)o to decline")
         userInputs = input('> ')
         while userInputs != 'q':
@@ -161,29 +174,8 @@ class GameLogic:
                             remaining -= len(input_1)
                             score2 += score1
                             total += score1
-                            print(f"You have {score1} unbanked points and {remaining} dice remaining\n(r)oll again, (b)ank your points or (q)uit:")
-                            userInputs = input('> ')
-
-                            if userInputs.strip().lower() == 'q':
-                                print(f"Thanks for playing. You earned {total} points")
-                                break
-
-                            if userInputs.strip().lower() == "r":
-                                if remaining != 6:
-                                    print(f"Starting round {roun}\nRolling {remaining} dice...")
-                                    dice = cls.roll_dice(remaining)
-                                    dices = "*** "
-                                    for i in dice:
-                                        dices += str(i) + " "
-                                    dices += "***"
-                                    print(f"{dices}\nEnter dice to keep, or (q)uit:")
-                                    continue
-
-                            if userInputs.strip().lower() == 'b':
-                                print(f"\nYou banked {score2} points in round {roun}\nTotal score is {total} points\n")
-                                score2 = 0
-                                roun += 1
-                                remaining = 6
+                            print(f"You have {score2} unbanked points and {remaining} dice remaining\n(r)oll again, (b)ank your points or (q)uit:")
+                            continue
                         else:
                             print("\nInvalid dice selection. Try again.\n")
                     else:
