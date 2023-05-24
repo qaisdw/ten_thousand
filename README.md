@@ -2,6 +2,7 @@
 
 **Author:** 
 ```
+Aseel Bdoor
 Qais Dwairi
 Moath Shakatreh
 ```
